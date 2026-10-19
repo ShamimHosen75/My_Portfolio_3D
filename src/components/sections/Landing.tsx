@@ -5,7 +5,16 @@ import { useIntro } from "@/components/providers/IntroProvider";
 import { gsap, MOTION_OK, useGSAP } from "@/lib/gsap";
 import { site } from "@/data/site";
 
-/** Hero: name on the left, "A Creative <word> Developer" on the right, character in the middle. */
+const titles = site.heroTitles;
+const longest = (list: string[]) => list.reduce((a, b) => (b.length > a.length ? b : a));
+
+/** Slide classes for a stack of words: the current one sits in place, the previous one leaves upward. */
+const roll = (i: number, current: number, count: number, instant = false) =>
+  `transition-all ${instant ? "duration-0" : "duration-700"} ease-[cubic-bezier(.2,.7,.2,1)] ${
+    i === current ? "translate-y-0 opacity-100" : i === (current + count - 1) % count ? "-translate-y-full opacity-0" : "translate-y-full opacity-0"
+  }`;
+
+/** Hero: name on the left, "A Creative <highlight> <role>" on the right, character in the middle. */
 export function Landing() {
   const root = useRef<HTMLElement>(null);
   const { done } = useIntro();
@@ -27,7 +36,7 @@ export function Landing() {
       const rise = { yPercent: 0, opacity: 1, filter: "blur(0px)", duration: 0.9, stagger: 0.03 };
       const from = { yPercent: 105, opacity: 0, filter: "blur(6px)" };
       tl.fromTo(chrome, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.9, stagger: 0.05 }, 0.45)
-        .fromTo("[data-split-r] [aria-hidden] span", from, rise, 0.9)
+        .fromTo("[data-split-r] [data-ch]", from, rise, 0.9)
         .fromTo("[data-word-r]", { yPercent: 40, opacity: 0, filter: "blur(6px)" }, { yPercent: 0, opacity: 1, filter: "blur(0px)", duration: 1 }, 1.0)
         .fromTo("[data-fade]", { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8 }, 1.15)
         .fromTo("[data-split] span", from, rise, 1.2);
@@ -53,16 +62,19 @@ export function Landing() {
     { scope: root },
   );
 
-  // Cycle the highlighted word.
+  // Cycle the title: the purple word changes every time, the bottom word only when it differs.
   useEffect(() => {
     if (!done || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = window.setInterval(() => setWord((w) => (w + 1) % site.heroWords.length), 2600);
+    const id = window.setInterval(() => setWord((w) => (w + 1) % titles.length), 2600);
     return () => clearInterval(id);
   }, [done]);
 
+  // When two titles in a row share the bottom word, it swaps without moving.
+  const sameRole = titles[word].role === titles[(word + titles.length - 1) % titles.length].role;
+
   const split = (text: string) =>
     text.split("").map((ch, i) => (
-      <span key={i} className="inline-block whitespace-pre">
+      <span key={i} data-ch className="inline-block whitespace-pre">
         {ch}
       </span>
     ));
@@ -88,27 +100,35 @@ export function Landing() {
         </div>
 
         <div data-hero-col className="intro-hidden mt-6 lg:mt-[6vh]">
-          <p data-split-r className="overflow-hidden text-[clamp(1.1rem,1.55vw,1.85rem)] font-light text-accent">
-            <span className="sr-only">A Creative</span>
-            <span aria-hidden="true">{split("A Creative")}</span>
+          <p className="sr-only">
+            A Creative {titles.map((t) => `${t.highlight} ${t.role}`).join(", ")}
           </p>
-          <p data-word-r className="relative -mt-1 h-[0.82em] overflow-hidden text-[clamp(2.4rem,4.2vw,5rem)] leading-none font-bold uppercase">
-            {site.heroWords.map((w, i) => (
-              <span
-                key={w}
-                aria-hidden={i !== word}
-                className={`text-glow-fill absolute top-0 left-0 block transition-all duration-700 ease-[cubic-bezier(.2,.7,.2,1)] ${
-                  i === word ? "translate-y-0 opacity-100" : i === (word + site.heroWords.length - 1) % site.heroWords.length ? "-translate-y-full opacity-0" : "translate-y-full opacity-0"
-                }`}
-              >
-                {w}
+          <p data-split-r aria-hidden="true" className="overflow-hidden text-[clamp(1.1rem,1.55vw,1.85rem)] font-light text-accent">
+            {split("A Creative")}
+          </p>
+          <p
+            data-word-r
+            aria-hidden="true"
+            className="relative -mt-1 h-[0.82em] overflow-hidden text-[clamp(2.4rem,4.2vw,5rem)] leading-none font-bold whitespace-nowrap uppercase"
+          >
+            {titles.map((t, i) => (
+              <span key={t.highlight} className={`text-glow-fill absolute top-0 left-0 block ${roll(i, word, titles.length)}`}>
+                {t.highlight}
               </span>
             ))}
-            <span className="invisible">{site.heroWords[0]}</span>
+            <span className="invisible">{longest(titles.map((t) => t.highlight))}</span>
           </p>
-          <p data-split-r className="-mt-[0.3em] overflow-hidden pb-[0.05em] text-[clamp(1.9rem,2.9vw,3.5rem)] leading-none font-semibold uppercase">
-            <span className="sr-only">Developer</span>
-            <span aria-hidden="true">{split("Developer")}</span>
+          <p
+            data-split-r
+            aria-hidden="true"
+            className="relative -mt-[0.3em] overflow-hidden pb-[0.05em] text-[clamp(1.9rem,2.9vw,3.5rem)] leading-none font-semibold whitespace-nowrap uppercase"
+          >
+            {titles.map((t, i) => (
+              <span key={t.highlight} className={`absolute top-0 left-0 block ${roll(i, word, titles.length, sameRole)}`}>
+                {split(t.role)}
+              </span>
+            ))}
+            <span className="invisible">{longest(titles.map((t) => t.role))}</span>
           </p>
         </div>
       </div>

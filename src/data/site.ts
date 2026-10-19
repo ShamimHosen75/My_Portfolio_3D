@@ -4,8 +4,13 @@ export const site = {
   name: "Billal Hosen Shamim",
   /** The two big lines in the hero. */
   heroName: ["Billal Hosen", "Shamim"],
-  /** Words that cycle in the hero: "A Creative <WORD> Developer". */
-  heroWords: ["Web", "MERN", "AI"],
+  /** Titles that cycle in the hero: "A Creative <highlight> <role>". */
+  heroTitles: [
+    { highlight: "AI Assist", role: "Developer" },
+    { highlight: "Full Stack", role: "Developer" },
+    { highlight: "CMS", role: "Developer" },
+    { highlight: "QA", role: "Tester" },
+  ],
   role: "MERN Stack & WordPress Developer",
   location: "Dhaka, Bangladesh",
   email: "billal.shamim75@gmail.com",

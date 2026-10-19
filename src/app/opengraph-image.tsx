@@ -37,7 +37,7 @@ export default function OpengraphImage() {
         <span>{site.heroName[1]}</span>
       </div>
       <div style={{ display: "flex", marginTop: 44, fontSize: 36, color: "#a29fa6" }}>
-        A Creative <span style={{ color: "#c2a4ff", margin: "0 12px", fontWeight: 700 }}>WEB</span> Developer · {site.role}
+        A Creative <span style={{ color: "#c2a4ff", margin: "0 12px", fontWeight: 700 }}>FULL STACK</span> Developer · {site.role}
       </div>
     </div>,
     size,
