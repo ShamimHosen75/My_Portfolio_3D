@@ -1,26 +1,143 @@
 @import "tailwindcss";
+@import "lenis/dist/lenis.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Design tokens. Use them as Tailwind classes: bg-bg, bg-surface, text-text, text-muted, text-accent… */
+@theme {
+  --color-bg: #0f2a30;
+  --color-surface: #163a42;
+  --color-text: #dce7e2;
+  --color-muted: #9fb5b0;
+  --color-accent: #f2a541;
+  --color-line: rgb(220 231 226 / 0.12);
+
+  --font-sans: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+
+  --animate-ping-slow: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  html {
+    background: var(--color-bg);
+    color: var(--color-text);
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    @apply bg-bg font-sans text-text antialiased;
+    font-optical-sizing: auto;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-bg);
+  }
+
+  /* Visible, consistent focus ring for keyboard users. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  section[id] {
+    scroll-margin-top: 5rem;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Lock page scroll while the intro plays or a modal is open. */
+html:has(.preloader:not(.is-revealing)),
+html[data-scroll-locked] {
+  overflow: hidden;
+}
+
+/* Returning visitors and reduced-motion users never see the intro (set by an inline script before paint). */
+html[data-intro="skip"] .preloader {
+  display: none;
+}
+
+/* Hide hero letters until GSAP animates them in on return visits, to avoid a flash. */
+html[data-intro="skip"]:not([data-reduced-motion]) .hero-letter {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Lightweight CSS cube used by the preloader when WebGL would be slow. */
+.css-cube-scene {
+  perspective: 900px;
+}
+.css-cube {
+  --s: clamp(7rem, 22vw, 11rem);
+  position: relative;
+  width: var(--s);
+  height: var(--s);
+  transform-style: preserve-3d;
+  animation: css-cube-spin 3.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+.css-cube-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6%;
+  padding: 5%;
+  background: #0b1e22;
+  border-radius: 10%;
+  backface-visibility: hidden;
+}
+.css-cube-face span {
+  border-radius: 18%;
+}
+.css-cube-front {
+  transform: translateZ(calc(var(--s) / 2));
+}
+.css-cube-back {
+  transform: rotateY(180deg) translateZ(calc(var(--s) / 2));
+}
+.css-cube-right {
+  transform: rotateY(90deg) translateZ(calc(var(--s) / 2));
+}
+.css-cube-left {
+  transform: rotateY(-90deg) translateZ(calc(var(--s) / 2));
+}
+.css-cube-top {
+  transform: rotateX(90deg) translateZ(calc(var(--s) / 2));
+}
+.css-cube-bottom {
+  transform: rotateX(-90deg) translateZ(calc(var(--s) / 2));
+}
+@keyframes css-cube-spin {
+  0% {
+    transform: rotateX(-24deg) rotateY(35deg);
+  }
+  25% {
+    transform: rotateX(-24deg) rotateY(125deg);
+  }
+  50% {
+    transform: rotateX(66deg) rotateY(125deg);
+  }
+  75% {
+    transform: rotateX(66deg) rotateY(215deg);
+  }
+  100% {
+    transform: rotateX(-24deg) rotateY(395deg);
+  }
 }
