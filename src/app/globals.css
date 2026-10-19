@@ -76,6 +76,20 @@ html[data-intro="skip"]:not([data-reduced-motion]) .intro-hidden {
   animation: eq 1.1s ease-in-out infinite;
 }
 
+/* Letters typing in (loader WELCOME) */
+@keyframes type-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.type-in {
+  opacity: 0;
+  animation: type-in 0.01s steps(1) forwards;
+}
+
 /* Outlined, glowing word in the hero */
 .text-glow-fill {
   background: linear-gradient(180deg, #c2a4ff 0%, #7f40ff 55%, rgb(127 64 255 / 0.15) 100%);

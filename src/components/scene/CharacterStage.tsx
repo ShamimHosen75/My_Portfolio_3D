@@ -124,7 +124,7 @@ export function CharacterStage({ children }: { children: React.ReactNode }) {
                 src="/images/character-hero.webp"
                 alt=""
                 width={806}
-                height={1091}
+                height={1098}
                 className="absolute bottom-0 left-1/2 h-[58svh] w-auto max-w-none -translate-x-1/2 object-contain object-bottom sm:h-[66svh] lg:h-[80svh]"
                 fetchPriority="high"
               />

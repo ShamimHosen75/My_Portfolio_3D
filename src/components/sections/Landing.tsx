@@ -22,19 +22,15 @@ export function Landing() {
       gsap.set(hidden, { autoAlpha: 1 });
       if (reduced) return;
       const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.fromTo(
-        "[data-split] span",
-        { yPercent: 110, opacity: 0 },
-        { yPercent: 0, opacity: 1, duration: 1, stagger: 0.025 },
-        0.2,
-      )
-        .fromTo("[data-fade]", { y: 24, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, stagger: 0.1 }, 0.35)
-        .fromTo(
-          chrome,
-          { autoAlpha: 0 },
-          { autoAlpha: 1, duration: 0.8, stagger: 0.05 },
-          0.6,
-        );
+      // Like the reference: the page chrome fades in while the character lights up,
+      // then the right-hand words rise in letter by letter, then the name.
+      const rise = { yPercent: 0, opacity: 1, filter: "blur(0px)", duration: 0.9, stagger: 0.03 };
+      const from = { yPercent: 105, opacity: 0, filter: "blur(6px)" };
+      tl.fromTo(chrome, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.9, stagger: 0.05 }, 0.45)
+        .fromTo("[data-split-r] [aria-hidden] span", from, rise, 0.9)
+        .fromTo("[data-word-r]", { yPercent: 40, opacity: 0, filter: "blur(6px)" }, { yPercent: 0, opacity: 1, filter: "blur(0px)", duration: 1 }, 1.0)
+        .fromTo("[data-fade]", { y: 18, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.8 }, 1.15)
+        .fromTo("[data-split] span", from, rise, 1.2);
     },
     { scope: root, dependencies: [done] },
   );
@@ -92,10 +88,11 @@ export function Landing() {
         </div>
 
         <div data-hero-col className="intro-hidden mt-6 lg:mt-[6vh]">
-          <p data-fade className="text-[clamp(1.1rem,1.55vw,1.85rem)] font-light text-text">
-            A Creative
+          <p data-split-r className="overflow-hidden text-[clamp(1.1rem,1.55vw,1.85rem)] font-light text-accent">
+            <span className="sr-only">A Creative</span>
+            <span aria-hidden="true">{split("A Creative")}</span>
           </p>
-          <p data-fade className="relative -mt-1 h-[0.82em] overflow-hidden text-[clamp(2.4rem,4.2vw,5rem)] leading-none font-bold uppercase">
+          <p data-word-r className="relative -mt-1 h-[0.82em] overflow-hidden text-[clamp(2.4rem,4.2vw,5rem)] leading-none font-bold uppercase">
             {site.heroWords.map((w, i) => (
               <span
                 key={w}
@@ -109,8 +106,9 @@ export function Landing() {
             ))}
             <span className="invisible">{site.heroWords[0]}</span>
           </p>
-          <p data-fade className="-mt-[0.3em] text-[clamp(1.9rem,2.9vw,3.5rem)] leading-none font-semibold uppercase">
-            Developer
+          <p data-split-r className="-mt-[0.3em] overflow-hidden pb-[0.05em] text-[clamp(1.9rem,2.9vw,3.5rem)] leading-none font-semibold uppercase">
+            <span className="sr-only">Developer</span>
+            <span aria-hidden="true">{split("Developer")}</span>
           </p>
         </div>
       </div>

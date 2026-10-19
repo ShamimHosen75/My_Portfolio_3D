@@ -43,7 +43,6 @@ function useMaterials() {
       color: "#f1eef3",
       roughness: 0.42,
       clearcoat: 0.3,
-      transparent: true,
     });
     const chair = furniture.clone();
     chair.color = new THREE.Color("#d9d4dd");
@@ -53,9 +52,8 @@ function useMaterials() {
       clearcoat: 0.6,
       emissive: new THREE.Color("#ff6fa5"),
       emissiveIntensity: 0.12,
-      transparent: true,
     });
-    const keys = new THREE.MeshStandardMaterial({ color: "#c9c3cf", roughness: 0.5, transparent: true });
+    const keys = new THREE.MeshStandardMaterial({ color: "#c9c3cf", roughness: 0.5 });
     const shadow = new THREE.MeshBasicMaterial({
       map: radialTexture(),
       transparent: true,
@@ -200,7 +198,7 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       }
     }
     // Heavy, sleepy upper lids that close fully on a blink.
-    const lid = 0.22 + close * 1.35;
+    const lid = 0.1 + close * 1.47;
     if (lidL.current) lidL.current.rotation.x = lid;
     if (lidR.current) lidR.current.rotation.x = lid;
     const ix = THREE.MathUtils.clamp(stageState.pointerX, -1, 1) * 0.011 * (1 - stageState.desk);
@@ -213,34 +211,34 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
   });
 
   const eye = (side: 1 | -1, lidRef: React.RefObject<THREE.Mesh | null>, irisRef: React.RefObject<THREE.Group | null>) => (
-    <group position={[side * 0.083, 0.028, 0.19]} rotation={[0, side * 0.24, 0]}>
+    <group position={[side * 0.085, 0.026, 0.188]} rotation={[0, side * 0.24, 0]} scale={1.14}>
       {/* Almond eyeball */}
-      <mesh material={mats.eyeWhite} scale={[1.22, 0.92, 0.5]}>
+      <mesh material={mats.eyeWhite} scale={[1.22, 0.86, 0.5]}>
         <sphereGeometry args={[0.056, 28, 20]} />
       </mesh>
       <group ref={irisRef}>
         <mesh material={mats.iris} position={[0, -0.006, 0.02]} scale={[1, 1, 0.45]}>
-          <sphereGeometry args={[0.034, 24, 18]} />
+          <sphereGeometry args={[0.036, 24, 18]} />
         </mesh>
-        <mesh material={mats.pupil} position={[0, -0.006, 0.0322]} scale={[1, 1, 0.4]}>
+        <mesh material={mats.pupil} position={[0, -0.006, 0.0345]} scale={[1, 1, 0.4]}>
           <sphereGeometry args={[0.013, 16, 12]} />
         </mesh>
-        <mesh material={mats.eyeWhite} position={[0.01, 0.003, 0.035]}>
+        <mesh material={mats.eyeWhite} position={[0.012, 0.004, 0.039]}>
           <sphereGeometry args={[0.0045, 8, 8]} />
         </mesh>
       </group>
       {/* Upper lid: a skin cap that rotates down over the eye, with a dark lash line */}
-      <mesh ref={lidRef} material={mats.skin} scale={[1.23, 0.97, 0.56]}>
+      <mesh ref={lidRef} material={mats.skin} scale={[1.24, 0.92, 0.74]}>
         <sphereGeometry args={[0.059, 28, 12, 0, Math.PI * 2, 0, Math.PI / 2]} />
         <mesh material={mats.lash} rotation={[Math.PI / 2, 0, 0]}>
           <torusGeometry args={[0.058, 0.004, 6, 28, Math.PI]} />
         </mesh>
       </mesh>
       {/* Lid crease above and the lower lid rim */}
-      <mesh material={mats.skin} position={[0, 0.03, -0.006]} rotation={[0.35, 0, 0]} scale={[1.16, 0.45, 0.56]}>
+      <mesh material={mats.skin} position={[0, 0.03, -0.006]} rotation={[0.35, 0, 0]} scale={[1.2, 0.45, 0.7]}>
         <torusGeometry args={[0.057, 0.007, 8, 28, Math.PI]} />
       </mesh>
-      <mesh material={mats.skin} position={[0, -0.006, 0.004]} rotation={[0.25, 0, Math.PI]} scale={[1.24, 0.78, 0.56]}>
+      <mesh material={mats.skin} position={[0, -0.006, 0.004]} rotation={[0.25, 0, Math.PI]} scale={[1.22, 0.78, 0.62]}>
         <torusGeometry args={[0.056, 0.0065, 8, 28, Math.PI]} />
       </mesh>
     </group>
@@ -254,11 +252,11 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       {eye(1, lidR, irisR)}
 
       {/* Straight, thick, flat brows */}
-      <mesh material={mats.hair} position={[-0.085, 0.1, 0.212]} rotation={[0.12, -0.22, Math.PI / 2 - 0.02]} scale={[1, 1, 0.55]}>
-        <capsuleGeometry args={[0.019, 0.1, 4, 12]} />
+      <mesh material={mats.hair} position={[-0.085, 0.108, 0.21]} rotation={[0.12, -0.22, Math.PI / 2 - 0.02]} scale={[1, 1, 0.55]}>
+        <capsuleGeometry args={[0.016, 0.105, 4, 12]} />
       </mesh>
-      <mesh material={mats.hair} position={[0.085, 0.1, 0.212]} rotation={[0.12, 0.22, Math.PI / 2 + 0.06]} scale={[1, 1, 0.55]}>
-        <capsuleGeometry args={[0.019, 0.1, 4, 12]} />
+      <mesh material={mats.hair} position={[0.085, 0.108, 0.21]} rotation={[0.12, 0.22, Math.PI / 2 + 0.06]} scale={[1, 1, 0.55]}>
+        <capsuleGeometry args={[0.016, 0.105, 4, 12]} />
       </mesh>
 
       {/* Long, rounded nose */}
@@ -266,7 +264,7 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
         <mesh material={mats.skin} position={[0, -0.012, 0.006]} rotation={[0.32, 0, 0]} scale={[1.1, 1, 0.7]}>
           <capsuleGeometry args={[0.031, 0.05, 8, 16]} />
         </mesh>
-        <mesh material={mats.skin} position={[0, -0.046, 0.017]} scale={[1.32, 0.8, 0.72]}>
+        <mesh material={mats.skin} position={[0, -0.048, 0.017]} scale={[1.05, 0.82, 0.72]}>
           <sphereGeometry args={[0.038, 24, 18]} />
         </mesh>
       </group>
@@ -291,7 +289,7 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       ))}
 
       {/* Hair: a cap of the same head shape, tilted so the hairline sits high at the front */}
-      <mesh geometry={hairCap} material={mats.hair} position={[0, 0.06, -0.012]} rotation={[-0.46, 0, 0]} scale={[1.12, 1.17, 1.13]} />
+      <mesh geometry={hairCap} material={mats.hair} position={[0, 0.072, -0.012]} rotation={[-0.42, 0, 0]} scale={[1.12, 1.17, 1.13]} />
       {/* Sides down to the tops of the ears */}
       {([-1, 1] as const).map((s) => (
         <mesh key={s} material={mats.hair} position={[s * 0.196, 0.11, -0.04]} rotation={[0.1, 0, 0]} scale={[0.3, 0.72, 1.3]}>
@@ -320,16 +318,16 @@ export function Character() {
     const s = smooth.current;
     s.about = damp(s.about, stageState.about, 6, dt);
     s.desk = damp(s.desk, stageState.desk, 6, dt);
-    s.reveal = damp(s.reveal, stageState.revealed ? 1 : 0, 3.5, dt);
     const t = state.clock.elapsedTime;
     const d = s.desk;
-    const typing = THREE.MathUtils.smoothstep(d, 0.55, 1);
+    // He turns to the desk and starts typing early; the camera keeps pulling back after.
+    const turn = THREE.MathUtils.smoothstep(d, 0.0, 0.5);
+    const typing = THREE.MathUtils.smoothstep(d, 0.3, 0.7);
 
     if (rig.current) {
-      rig.current.rotation.y = d * 0.95;
-      rig.current.position.x = d * -0.45;
-      // Rises gently into place when the site is revealed.
-      rig.current.position.y = (1 - s.reveal) * -0.25;
+      // A slight turn towards the About text, then a full turn to the monitor.
+      rig.current.rotation.y = s.about * 0.22 * (1 - turn) + turn * 0.95;
+      rig.current.position.x = turn * -0.45;
     }
     if (body.current) {
       // Idle breathing.
@@ -338,10 +336,11 @@ export function Character() {
 
     // Head: follows the pointer in the hero, looks at the screen at the desk.
     if (head.current) {
-      const px = stageState.pointerX * (1 - d);
-      const py = stageState.pointerY * (1 - d);
-      const yaw = px * 0.5 + s.about * -0.25 * (1 - d);
-      const pitch = -py * 0.28 + d * 0.12 + typing * Math.sin(t * 0.7) * 0.02;
+      const follow = (1 - turn) * (1 - s.about * 0.5);
+      const px = stageState.pointerX * follow;
+      const py = stageState.pointerY * follow;
+      const yaw = px * 0.55 + s.about * 0.12 * (1 - turn);
+      const pitch = -py * 0.3 + turn * 0.12 + typing * Math.sin(t * 0.7) * 0.02;
       head.current.rotation.y = damp(head.current.rotation.y, yaw, 5, dt);
       head.current.rotation.x = damp(head.current.rotation.x, pitch, 5, dt);
       head.current.rotation.z = damp(head.current.rotation.z, -px * 0.06, 5, dt);
@@ -355,29 +354,19 @@ export function Character() {
     for (const [sh, el, side] of arms) {
       if (!sh || !el) continue;
       const tap = typing * Math.max(0, Math.sin(t * 11 + (side > 0 ? 0 : 1.7))) * 0.07;
-      sh.rotation.x = lerp(0.04, -0.62, d) + tap * 0.4;
-      sh.rotation.z = lerp(side * 0.08, side * -0.48, d);
-      el.rotation.x = lerp(-0.05, -1.08, d) - tap;
-      el.rotation.z = lerp(0, side * -0.25, d);
+      const a = turn;
+      sh.rotation.x = lerp(0.04, -0.62, a) + tap * 0.4;
+      sh.rotation.z = lerp(side * 0.08, side * -0.48, a);
+      el.rotation.x = lerp(-0.05, -1.08, a) - tap;
+      el.rotation.z = lerp(0, side * -0.25, a);
     }
 
     if (desk.current) {
-      const show = THREE.MathUtils.smoothstep(d, 0.15, 0.85);
-      desk.current.visible = show > 0.01;
-      desk.current.position.y = (1 - show) * -0.35;
-      mats.furniture.opacity = show;
-      mats.chair.opacity = show;
-      mats.pink.opacity = show;
-      mats.keys.opacity = show;
-      mats.shadow.opacity = show * 0.9;
-      const transparent = show < 0.999;
-      for (const m of [mats.furniture, mats.chair, mats.pink, mats.keys]) {
-        if (m.transparent !== transparent) {
-          m.transparent = transparent;
-          m.needsUpdate = true;
-        }
-        m.depthWrite = !transparent;
-      }
+      const show = THREE.MathUtils.smoothstep(d, 0.02, 0.5);
+      desk.current.visible = show > 0.001;
+      desk.current.position.z = (1 - show) * 1.8;
+      desk.current.position.x = (1 - show) * 0.4;
+      mats.shadow.opacity = THREE.MathUtils.smoothstep(d, 0.4, 0.9) * 0.9;
     }
   });
 
@@ -407,7 +396,8 @@ export function Character() {
       <Leg side={-1} mats={mats} />
       <Leg side={1} mats={mats} />
 
-      <group ref={desk}>
+      {/* Chair: always there, only seen once the camera pulls back */}
+      <group>
         {/* Chair */}
         <mesh material={mats.chair} position={[0, 0.445, 0.03]}>
           <boxGeometry args={[0.5, 0.045, 0.48]} />
@@ -426,6 +416,10 @@ export function Character() {
           </mesh>
         ))}
 
+      </group>
+
+      {/* Desk set: slides in from the front right as he turns to type */}
+      <group ref={desk}>
         {/* Desk */}
         <mesh material={mats.furniture} position={[0.12, 0.765, 0.64]}>
           <boxGeometry args={[1.5, 0.035, 0.68]} />

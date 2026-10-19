@@ -8,7 +8,7 @@ import { loaderWords } from "@/data/site";
 
 const MIN_DURATION = 2500;
 
-type Phase = "loading" | "welcome" | "cover" | "reveal" | "gone";
+type Phase = "loading" | "welcome" | "expand" | "cover" | "reveal" | "gone";
 
 /**
  * First-visit loader: light screen with a scrolling marquee and a "LOADING xx%" pill.
@@ -73,18 +73,23 @@ export function Loader() {
   // WELCOME → black cover → reveal the site.
   useEffect(() => {
     if (phase === "welcome") {
-      const t = window.setTimeout(() => setPhase("cover"), 900);
+      const t = window.setTimeout(() => setPhase("expand"), 950);
+      return () => clearTimeout(t);
+    }
+    if (phase === "expand") {
+      // The pill grows until it swallows the screen.
+      const t = window.setTimeout(() => setPhase("cover"), 750);
       return () => clearTimeout(t);
     }
     if (phase === "cover") {
       const t = window.setTimeout(() => {
         setPhase("reveal");
         finish();
-      }, 650);
+      }, 450);
       return () => clearTimeout(t);
     }
     if (phase === "reveal") {
-      const t = window.setTimeout(() => setPhase("gone"), 1000);
+      const t = window.setTimeout(() => setPhase("gone"), 900);
       return () => clearTimeout(t);
     }
   }, [phase, finish]);
@@ -148,9 +153,18 @@ export function Loader() {
           </div>
         </div>
 
-        {/* Pill */}
+        {/* Pill: its black shape grows to cover the screen when the intro ends */}
+        <div
+          aria-hidden="true"
+          className="absolute top-1/2 left-1/2 h-[clamp(3.6rem,5.6vw,5.4rem)] w-[clamp(14rem,19vw,19rem)] -translate-x-1/2 -translate-y-1/2 rounded-[9999px] bg-[#0b080c] shadow-[0_10px_30px_-12px_rgba(127,64,255,0.9),inset_0_-2px_0_rgba(127,64,255,0.55)] transition-[width,height] duration-700 ease-[cubic-bezier(.75,0,.25,1)]"
+          style={phase === "expand" ? { width: "260vmax", height: "160vmax" } : undefined}
+        />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div className="relative flex h-[clamp(3.6rem,5.6vw,5.4rem)] w-[clamp(14rem,19vw,19rem)] items-center justify-between rounded-full bg-[#0b080c] px-[clamp(1.5rem,2vw,2.2rem)] text-[clamp(0.8rem,0.85vw,0.95rem)] font-medium tracking-wide text-paper shadow-[0_10px_30px_-12px_rgba(127,64,255,0.9),inset_0_-2px_0_rgba(127,64,255,0.55)]">
+          <div
+            className={`relative flex h-[clamp(3.6rem,5.6vw,5.4rem)] w-[clamp(14rem,19vw,19rem)] items-center justify-between px-[clamp(1.5rem,2vw,2.2rem)] text-[clamp(0.8rem,0.85vw,0.95rem)] font-medium tracking-wide text-paper transition-opacity duration-200 ${
+              phase === "expand" ? "opacity-0" : ""
+            }`}
+          >
             {phase === "loading" ? (
               <>
                 <span>LOADING</span>
@@ -161,7 +175,13 @@ export function Loader() {
             ) : (
               <span className="mx-auto flex items-center gap-2">
                 <span className="inline-block h-[1em] w-[0.3em] bg-paper" />
-                WELCOME
+                <span className="flex">
+                  {"WELCOME".split("").map((ch, i) => (
+                    <span key={i} className="type-in" style={{ animationDelay: `${i * 55}ms` }}>
+                      {ch}
+                    </span>
+                  ))}
+                </span>
               </span>
             )}
           </div>
@@ -171,7 +191,7 @@ export function Loader() {
       {/* Black cover that fades out to reveal the site */}
       <div
         className={`absolute inset-0 bg-black transition-opacity ${
-          phase === "cover" ? "opacity-100 duration-300" : leaving ? "opacity-0 duration-1000" : "opacity-0 duration-0"
+          phase === "cover" ? "opacity-100 duration-0" : leaving ? "opacity-0 duration-700" : "opacity-0 duration-0"
         }`}
       />
     </div>

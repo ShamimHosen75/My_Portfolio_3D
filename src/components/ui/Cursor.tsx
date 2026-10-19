@@ -11,7 +11,7 @@ export function Cursor() {
     const el = ref.current;
     if (!el || !window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const duration = reduced ? 0 : 0.45;
+    const duration = reduced ? 0 : 0.6;
     const x = gsap.quickTo(el, "x", { duration, ease: "power3.out" });
     const y = gsap.quickTo(el, "y", { duration, ease: "power3.out" });
     let shown = false;
@@ -45,7 +45,11 @@ export function Cursor() {
       ref={ref}
       aria-hidden="true"
       data-hover="false"
-      className="pointer-events-none invisible fixed top-0 left-0 z-[150] -mt-4 -ml-4 h-8 w-8 rounded-full bg-[#e2cfff] opacity-0 transition-[width,height,margin] duration-300 data-[hover=true]:-mt-8 data-[hover=true]:-ml-8 data-[hover=true]:h-16 data-[hover=true]:w-16 data-[hover=true]:bg-[#e2cfff]/35"
-    />
+      className="pointer-events-none invisible fixed top-0 left-0 z-[150] opacity-0 mix-blend-difference group"
+    >
+      {/* Lavender dot drawn with "difference" blending, so it inverts whatever it passes over
+          (dark over the white character, lavender over the dark page). It swells over links. */}
+      <span className="block h-10 w-10 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#e2cfff] transition-transform duration-500 ease-[cubic-bezier(.2,.8,.2,1)] group-data-[hover=true]:scale-[1.9]" />
+    </div>
   );
 }

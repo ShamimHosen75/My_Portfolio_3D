@@ -65,6 +65,42 @@ function CameraRig() {
   return null;
 }
 
+/**
+ * Studio lights. They start dark and fade up once the loader has gone, so the
+ * character emerges from the black: rim light first, then the key light.
+ */
+function Lights() {
+  const refs = useRef<(THREE.Light | null)[]>([]);
+  const level = useRef({ rim: 0, key: 0 });
+  const base = [0.85, 2.1, 0.5, 7, 3.2, 6];
+  useFrame((_, dt) => {
+    const on = stageState.revealed ? 1 : 0;
+    const l = level.current;
+    l.rim = damp(l.rim, on, 3.2, dt);
+    // The key light lags behind the rim light.
+    l.key = damp(l.key, on * Math.min(1, l.rim * 1.25), 2.4, dt);
+    refs.current.forEach((light, i) => {
+      if (!light) return;
+      const rim = i >= 3;
+      light.intensity = base[i] * (rim ? l.rim : l.key * l.key);
+    });
+  });
+  const set = (i: number) => (el: THREE.Light | null) => {
+    refs.current[i] = el;
+  };
+  return (
+    <>
+      <hemisphereLight ref={set(0)} args={["#ffffff", "#2a1838", 0]} />
+      <directionalLight ref={set(1)} position={[1.5, 3, 4]} intensity={0} color="#ffffff" />
+      <directionalLight ref={set(2)} position={[-2.5, 0.5, 2]} intensity={0} color="#e8dcff" />
+      {/* Purple and pink rim lights from behind */}
+      <directionalLight ref={set(3)} position={[-3, 2.2, -3]} intensity={0} color="#a860ff" />
+      <directionalLight ref={set(4)} position={[3, 1.2, -4]} intensity={0} color="#ff6ed1" />
+      <pointLight ref={set(5)} position={[0, 0.9, -1.2]} intensity={0} distance={4} color="#8b4dff" />
+    </>
+  );
+}
+
 /** Tells the loader the scene is ready once the first frames have rendered. */
 function ReadySignal() {
   const frames = useRef(0);
@@ -92,13 +128,7 @@ export default function CharacterScene({ active }: { active: boolean }) {
         gl.toneMappingExposure = 1.05;
       }}
     >
-      <hemisphereLight args={["#ffffff", "#2a1838", 0.85]} />
-      <directionalLight position={[1.5, 3, 4]} intensity={2.1} color="#ffffff" />
-      <directionalLight position={[-2.5, 0.5, 2]} intensity={0.5} color="#e8dcff" />
-      {/* Purple and pink rim lights from behind */}
-      <directionalLight position={[-3, 2.2, -3]} intensity={7} color="#a860ff" />
-      <directionalLight position={[3, 1.2, -4]} intensity={3.2} color="#ff6ed1" />
-      <pointLight position={[0, 0.9, -1.2]} intensity={6} distance={4} color="#8b4dff" />
+      <Lights />
       <CameraRig />
       <Character />
       <ReadySignal />
