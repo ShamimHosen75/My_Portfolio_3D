@@ -1,38 +1,20 @@
-interface LogoProps {
-  className?: string;
-  title?: string;
-}
-
-/** Isometric cube mark, a nod to the Rubik's cube intro. */
-export function LogoMark({ className, title }: LogoProps) {
+/** "BS" monogram. Inherits the text colour. */
+export function Logo({ className = "h-7 w-auto", title }: { className?: string; title?: string }) {
   return (
     <svg
-      viewBox="0 0 32 32"
+      viewBox="0 0 44 30"
       className={className}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="3.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
       role={title ? "img" : undefined}
-      aria-hidden={title ? undefined : true}
       aria-label={title}
+      aria-hidden={title ? undefined : true}
     >
-      <polygon points="16,2.5 28.5,9.5 16,16.5 3.5,9.5" fill="#F2A541" />
-      <polygon points="3.5,9.5 16,16.5 16,30 3.5,23" fill="#C77F24" />
-      <polygon points="28.5,9.5 16,16.5 16,30 28.5,23" fill="#F7C77A" />
-      <path
-        d="M16 16.5V30M3.5 9.5 16 16.5l12.5-7"
-        stroke="#0F2A30"
-        strokeWidth="1.2"
-        fill="none"
-      />
+      <path d="M4 26V4h8.5a5 5 0 0 1 0 10H4m8.5 0H14a6 6 0 0 1 0 12H4" />
+      <path d="M39 7.5A5 5 0 0 0 34.5 4h-3a5 5 0 0 0 0 10h3a6 6 0 0 1 0 12h-3.5A5.5 5.5 0 0 1 25.5 22" />
     </svg>
-  );
-}
-
-export function Logo({ className }: { className?: string }) {
-  return (
-    <span className={`inline-flex items-center gap-2.5 ${className ?? ""}`}>
-      <LogoMark className="h-8 w-8" />
-      <span className="text-lg font-bold tracking-tight">
-        Shamim<span className="text-accent">.</span>
-      </span>
-    </span>
   );
 }

@@ -13,57 +13,31 @@ export default function OpengraphImage() {
         height: "100%",
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
-        padding: "72px 80px",
-        background: "linear-gradient(135deg, #163A42 0%, #0F2A30 60%)",
-        color: "#DCE7E2",
+        justifyContent: "center",
+        padding: "80px 90px",
+        backgroundColor: "#0b080c",
+        backgroundImage: "radial-gradient(circle at 105% 50%, rgba(127,64,255,0.55) 0%, rgba(127,64,255,0) 38%)",
+        color: "#eae5ec",
         fontFamily: "sans-serif",
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-        <svg width="64" height="64" viewBox="0 0 32 32">
-          <polygon points="16,2.5 28.5,9.5 16,16.5 3.5,9.5" fill="#F2A541" />
-          <polygon points="3.5,9.5 16,16.5 16,30 3.5,23" fill="#C77F24" />
-          <polygon points="28.5,9.5 16,16.5 16,30 28.5,23" fill="#F7C77A" />
-        </svg>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            padding: "10px 22px",
-            borderRadius: 999,
-            border: "2px solid rgba(220,231,226,0.18)",
-            fontSize: 26,
-          }}
-        >
-          <div
-            style={{
-              width: 14,
-              height: 14,
-              borderRadius: 999,
-              background: "#F2A541",
-            }}
-          />
-          Open to work
-        </div>
+      <div style={{ display: "flex", fontSize: 40, color: "#c2a4ff" }}>Hello! I&apos;m</div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          marginTop: 10,
+          fontSize: 104,
+          fontWeight: 700,
+          lineHeight: 1,
+          textTransform: "uppercase",
+        }}
+      >
+        <span>{site.heroName[0]}</span>
+        <span>{site.heroName[1]}</span>
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <div
-          style={{
-            display: "flex",
-            fontSize: 108,
-            fontWeight: 800,
-            letterSpacing: "-0.04em",
-            lineHeight: 1,
-          }}
-        >
-          {site.name}
-          <span style={{ color: "#F2A541" }}>.</span>
-        </div>
-        <div style={{ marginTop: 28, fontSize: 38, color: "#9FB5B0" }}>
-          {site.tagline}
-        </div>
+      <div style={{ display: "flex", marginTop: 44, fontSize: 36, color: "#a29fa6" }}>
+        A Creative <span style={{ color: "#c2a4ff", margin: "0 12px", fontWeight: 700 }}>WEB</span> Developer · {site.role}
       </div>
     </div>,
     size,

@@ -2,40 +2,32 @@
 
 export const site = {
   name: "Billal Hosen Shamim",
-  shortName: "Shamim",
-  role: "MERN stack & WordPress developer",
-  tagline:
-    "I build high-quality websites that grow your business, plus interactive web solutions.",
-  intro: [
-    "MERN stack and WordPress developer from Dhaka, building web apps for 5+ years.",
-    "Building the future with code and AI, one useful product at a time.",
-  ],
-  openToWork: true,
+  /** The two big lines in the hero. */
+  heroName: ["Billal Hosen", "Shamim"],
+  /** Words that cycle in the hero: "A Creative <WORD> Developer". */
+  heroWords: ["Web", "MERN", "AI"],
+  role: "MERN Stack & WordPress Developer",
   location: "Dhaka, Bangladesh",
   email: "billal.shamim75@gmail.com",
   resume: "/documents/resume.pdf",
-  socials: {
-    github: {
-      label: "GitHub",
-      handle: "@ShamimHosen75",
-      url: "https://github.com/ShamimHosen75",
-    },
-    linkedin: {
-      label: "LinkedIn",
-      handle: "in/billal-hosen-shamim",
-      url: "https://www.linkedin.com/in/billal-hosen-shamim/",
-    },
-  },
+  socials: [
+    { label: "Github", url: "https://github.com/ShamimHosen75", icon: "github" },
+    { label: "Linkedin", url: "https://www.linkedin.com/in/billal-hosen-shamim/", icon: "linkedin" },
+    { label: "Facebook", url: "https://www.facebook.com/billal.hosen.shamim96", icon: "facebook" },
+    { label: "Twitter", url: "https://twitter.com/ShamimHosen75", icon: "twitter" },
+  ],
   seo: {
-    title: "Billal Hosen Shamim | Full-stack Web Developer",
+    title: "Billal Hosen Shamim | MERN Stack & WordPress Developer",
     description:
-      "Portfolio of Billal Hosen Shamim, a full-stack web developer in Dhaka building fast, interactive React, Next.js and WordPress sites.",
+      "Portfolio of Billal Hosen Shamim, a MERN stack and WordPress developer from Dhaka, Bangladesh, building high-quality websites and interactive web solutions.",
   },
 } as const;
 
 export const navLinks = [
   { id: "about", label: "About" },
-  { id: "skills", label: "Skills" },
-  { id: "process", label: "Process" },
-  { id: "projects", label: "Projects" },
+  { id: "work", label: "Work" },
+  { id: "contact", label: "Contact" },
 ] as const;
+
+/** Words in the loader marquee. */
+export const loaderWords = ["A Creative Developer", "A Creative Designer"];

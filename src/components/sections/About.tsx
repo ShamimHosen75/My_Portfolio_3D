@@ -1,56 +1,57 @@
-import Image from "next/image";
-import { TiltCard } from "@/components/ui/TiltCard";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+"use client";
+
+import { useRef } from "react";
+import { gsap, MOTION_OK, useGSAP } from "@/lib/gsap";
 import { about } from "@/data/about";
-import { site } from "@/data/site";
 
+/** About: the character slides left and the text writes itself in on the right. */
 export function About() {
-  return (
-    <section
-      id="about"
-      aria-labelledby="about-title"
-      className="px-5 py-24 sm:px-8 md:py-32"
-    >
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20">
-        <TiltCard className="mx-auto w-full max-w-sm rounded-3xl lg:mx-0 lg:max-w-none">
-          <figure className="overflow-hidden rounded-3xl border border-line bg-surface p-3">
-            <Image
-              src={about.portrait.src}
-              alt={about.portrait.alt}
-              width={about.portrait.width}
-              height={about.portrait.height}
-              sizes="(min-width: 1024px) 40vw, 384px"
-              className="h-auto w-full rounded-2xl object-cover"
-            />
-            <figcaption className="flex items-center justify-between px-2 pt-4 pb-1 text-sm">
-              <span className="font-semibold">{site.name}</span>
-              <span className="text-muted">{site.location}</span>
-            </figcaption>
-          </figure>
-        </TiltCard>
+  const root = useRef<HTMLElement>(null);
 
-        <div className="flex flex-col">
-          <SectionHeading
+  useGSAP(
+    () => {
+      const mm = gsap.matchMedia();
+      mm.add(MOTION_OK, () => {
+        gsap.fromTo(
+          "[data-word]",
+          { opacity: 0.12, y: 6 },
+          {
+            opacity: 1,
+            y: 0,
+            stagger: 0.04,
+            ease: "none",
+            scrollTrigger: { trigger: root.current, start: "top 55%", end: "bottom 75%", scrub: true },
+          },
+        );
+        gsap.fromTo(
+          "[data-about-title]",
+          { opacity: 0, y: 30 },
+          { opacity: 1, y: 0, duration: 0.9, ease: "power3.out", scrollTrigger: { trigger: root.current, start: "top 60%" } },
+        );
+      });
+      return () => mm.revert();
+    },
+    { scope: root },
+  );
+
+  return (
+    <section ref={root} id="about" className="relative flex min-h-svh items-end lg:items-center" aria-labelledby="about-title">
+      <div className="mx-auto grid w-full max-w-[1920px] px-6 pb-[12svh] sm:px-10 lg:grid-cols-2 lg:pb-0 lg:px-[6.5vw]">
+        <div className="max-lg:rounded-2xl max-lg:bg-bg/70 max-lg:p-5 max-lg:backdrop-blur-sm lg:col-start-2 lg:max-w-[38rem] lg:pl-[2vw]">
+          <h2
             id="about-title"
-            eyebrow="About"
-            title={about.heading}
-          />
-          <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted">
-            {about.paragraphs.map((p, i) => (
-              <p key={i}>{p}</p>
+            data-about-title
+            className="text-[clamp(1.7rem,2.6vw,3rem)] font-semibold tracking-tight text-accent uppercase"
+          >
+            {about.heading}
+          </h2>
+          <p className="mt-5 text-[clamp(1.15rem,1.55vw,1.75rem)] leading-[1.45] font-light text-text">
+            {about.text.split(" ").map((w, i) => (
+              <span key={i} data-word className="inline-block whitespace-pre">
+                {w}{" "}
+              </span>
             ))}
-          </div>
-          <ul className="mt-10 grid gap-4 sm:grid-cols-2">
-            {about.highlights.map((h) => (
-              <li
-                key={h.value}
-                className="rounded-2xl border border-line bg-surface p-6"
-              >
-                <p className="text-2xl font-bold text-accent">{h.value}</p>
-                <p className="mt-1 text-sm text-muted">{h.label}</p>
-              </li>
-            ))}
-          </ul>
+          </p>
         </div>
       </div>
     </section>
