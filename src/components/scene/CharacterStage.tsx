@@ -123,8 +123,8 @@ export function CharacterStage({ children }: { children: React.ReactNode }) {
               <img
                 src="/images/character-hero.webp"
                 alt=""
-                width={718}
-                height={1021}
+                width={806}
+                height={1091}
                 className="absolute bottom-0 left-1/2 h-[58svh] w-auto max-w-none -translate-x-1/2 object-contain object-bottom sm:h-[66svh] lg:h-[80svh]"
                 fetchPriority="high"
               />
@@ -137,7 +137,7 @@ export function CharacterStage({ children }: { children: React.ReactNode }) {
                 src="/images/character-desk.webp"
                 alt=""
                 width={993}
-                height={987}
+                height={1027}
                 loading="lazy"
                 className="absolute top-1/2 left-1/2 h-[50svh] w-auto max-w-none -translate-x-1/2 -translate-y-1/2 object-contain lg:left-[47%] lg:h-[64svh]"
               />

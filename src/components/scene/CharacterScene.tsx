@@ -97,7 +97,7 @@ export default function CharacterScene({ active }: { active: boolean }) {
       <directionalLight position={[-2.5, 0.5, 2]} intensity={0.5} color="#e8dcff" />
       {/* Purple and pink rim lights from behind */}
       <directionalLight position={[-3, 2.2, -3]} intensity={7} color="#a860ff" />
-      <directionalLight position={[3, 1.4, -2.5]} intensity={5} color="#ff6ed1" />
+      <directionalLight position={[3, 1.2, -4]} intensity={3.2} color="#ff6ed1" />
       <pointLight position={[0, 0.9, -1.2]} intensity={6} distance={4} color="#8b4dff" />
       <CameraRig />
       <Character />
