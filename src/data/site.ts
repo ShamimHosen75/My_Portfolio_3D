@@ -3,11 +3,12 @@
 export const site = {
   name: "Billal Hosen Shamim",
   shortName: "Shamim",
-  role: "Full-stack web developer",
-  tagline: "I build fast, interactive websites that help businesses grow.",
+  role: "MERN stack & WordPress developer",
+  tagline:
+    "I build high-quality websites that grow your business, plus interactive web solutions.",
   intro: [
-    "Full-stack developer from Dhaka with 5+ years shipping React, Next.js and WordPress products.",
-    "I turn ideas into polished, accessible web apps, and I use AI to ship them faster.",
+    "MERN stack and WordPress developer from Dhaka, building web apps for 5+ years.",
+    "Building the future with code and AI, one useful product at a time.",
   ],
   openToWork: true,
   location: "Dhaka, Bangladesh",
