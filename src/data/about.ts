@@ -2,7 +2,7 @@
 
 export const about = {
   heading: "About me",
-  text: "I'm a full-stack developer with 6 years of experience building web applications people use every day. Right now I lead full-stack work at Ashma Tech, shipping products like DeenHub and Smart Ranna with React, Next.js, Node.js, Supabase and Firebase, alongside WordPress and WooCommerce stores for clients worldwide. I also build AI agents and automated QA, and with AI as my co-pilot there's no problem I can't solve and nothing I can't create.",
+  text: "I'm an aspiring software engineer and enthusiastic programmer with 6 years of experience building web applications people use every day. Right now I'm a full-stack developer at Gtation, shipping products like Surprisly and Tourigo with React, Next.js, Node.js, Supabase and Firebase, alongside WordPress and WooCommerce stores for clients worldwide. I also build AI agents and automated QA, and with AI as my co-pilot there's no problem I can't solve and nothing I can't create.",
 };
 
 export interface WhatIDoCard {
