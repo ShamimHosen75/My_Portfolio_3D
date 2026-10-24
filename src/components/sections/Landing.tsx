@@ -14,7 +14,7 @@ const roll = (i: number, current: number, count: number, instant = false) =>
     i === current ? "translate-y-0 opacity-100" : i === (current + count - 1) % count ? "-translate-y-full opacity-0" : "translate-y-full opacity-0"
   }`;
 
-/** Hero: name on the left, "A Creative <highlight> <role>" on the right, character in the middle. */
+/** Hero: name on the left, "<prefix> / <highlight> <role>" on the right, character in the middle. */
 export function Landing() {
   const root = useRef<HTMLElement>(null);
   const { done } = useIntro();
@@ -65,12 +65,14 @@ export function Landing() {
   // Cycle the title: the purple word changes every time, the bottom word only when it differs.
   useEffect(() => {
     if (!done || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = window.setInterval(() => setWord((w) => (w + 1) % titles.length), 2600);
+    const id = window.setInterval(() => setWord((w) => (w + 1) % titles.length), 3000);
     return () => clearInterval(id);
   }, [done]);
 
-  // When two titles in a row share the bottom word, it swaps without moving.
-  const sameRole = titles[word].role === titles[(word + titles.length - 1) % titles.length].role;
+  // When two titles in a row share a line, that line swaps without moving.
+  const prev = titles[(word + titles.length - 1) % titles.length];
+  const sameRole = titles[word].role === prev.role;
+  const samePrefix = titles[word].prefix === prev.prefix;
 
   const split = (text: string) =>
     text.split("").map((ch, i) => (
@@ -99,20 +101,27 @@ export function Landing() {
           </h1>
         </div>
 
-        <div data-hero-col className="intro-hidden mt-6 lg:mt-[6vh]">
-          <p className="sr-only">
-            A Creative {titles.map((t) => `${t.highlight} ${t.role}`).join(", ")}
-          </p>
-          <p data-split-r aria-hidden="true" className="overflow-hidden text-[clamp(1.1rem,1.55vw,1.85rem)] font-light text-accent">
-            {split("A Creative")}
+        <div data-hero-col className="intro-hidden mt-6 lg:mt-[6vh] lg:w-[26vw] lg:shrink-0">
+          <p className="sr-only">{titles.map((t) => `${t.prefix} ${t.highlight} ${t.role}`).join(", ")}</p>
+          <p
+            data-split-r
+            aria-hidden="true"
+            className="relative w-max min-w-full overflow-hidden text-[clamp(1.1rem,1.55vw,1.85rem)] font-light whitespace-nowrap text-accent"
+          >
+            {titles.map((t, i) => (
+              <span key={i} className={`absolute top-0 left-0 block ${roll(i, word, titles.length, samePrefix)}`}>
+                {split(t.prefix)}
+              </span>
+            ))}
+            <span className="invisible">{longest(titles.map((t) => t.prefix))}</span>
           </p>
           <p
             data-word-r
             aria-hidden="true"
-            className="relative -mt-1 h-[0.82em] overflow-hidden text-[clamp(2.4rem,4.2vw,5rem)] leading-none font-bold whitespace-nowrap uppercase"
+            className="relative -mt-1 h-[0.82em] w-max min-w-full overflow-hidden text-[clamp(2.2rem,3.4vw,4.2rem)] leading-none font-bold whitespace-nowrap uppercase"
           >
             {titles.map((t, i) => (
-              <span key={t.highlight} className={`text-glow-fill absolute top-0 left-0 block ${roll(i, word, titles.length)}`}>
+              <span key={i} className={`text-glow-fill absolute top-0 left-0 block ${roll(i, word, titles.length)}`}>
                 {t.highlight}
               </span>
             ))}
@@ -121,10 +130,10 @@ export function Landing() {
           <p
             data-split-r
             aria-hidden="true"
-            className="relative -mt-[0.3em] overflow-hidden pb-[0.05em] text-[clamp(1.9rem,2.9vw,3.5rem)] leading-none font-semibold whitespace-nowrap uppercase"
+            className="relative -mt-[0.3em] w-max min-w-full overflow-hidden pb-[0.05em] text-[clamp(1.8rem,2.6vw,3.2rem)] leading-none font-semibold whitespace-nowrap uppercase"
           >
             {titles.map((t, i) => (
-              <span key={t.highlight} className={`absolute top-0 left-0 block ${roll(i, word, titles.length, sameRole)}`}>
+              <span key={i} className={`absolute top-0 left-0 block ${roll(i, word, titles.length, sameRole)}`}>
                 {split(t.role)}
               </span>
             ))}

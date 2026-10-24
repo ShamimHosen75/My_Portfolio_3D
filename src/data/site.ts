@@ -4,12 +4,15 @@ export const site = {
   name: "Billal Hosen Shamim",
   /** The two big lines in the hero. */
   heroName: ["Billal Hosen", "Shamim"],
-  /** Titles that cycle in the hero: "A Creative <highlight> <role>". */
+  /** Titles that cycle in the hero: "<prefix> / <highlight> <role>". */
   heroTitles: [
-    { highlight: "AI Assist", role: "Developer" },
-    { highlight: "Full Stack", role: "Developer" },
-    { highlight: "CMS", role: "Developer" },
-    { highlight: "QA", role: "Tester" },
+    { prefix: "An Aspiring", highlight: "Software", role: "Engineer" },
+    { prefix: "A Creative", highlight: "Full Stack", role: "Developer" },
+    { prefix: "A Passionate", highlight: "QA Automation", role: "Engineer" },
+    { prefix: "A Detail-Oriented", highlight: "WordPress", role: "Developer" },
+    { prefix: "An Innovative", highlight: "AI Agent", role: "Developer" },
+    { prefix: "An Enthusiastic", highlight: "AI/ML", role: "Learner" },
+    { prefix: "An AI-Assisted", highlight: "Problem", role: "Solver" },
   ],
   role: "MERN Stack & WordPress Developer",
   location: "Dhaka, Bangladesh",
