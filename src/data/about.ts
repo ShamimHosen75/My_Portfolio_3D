@@ -2,7 +2,7 @@
 
 export const about = {
   heading: "About me",
-  text: "I'm an enthusiastic programmer who has been building web applications for more than 5 years. I love writing code that makes people's daily lives easier, and I'm always eager to take on new challenges. My core skills are JavaScript, React and WordPress, and today I lead full-stack work with Next.js, Node.js, Supabase and Firebase while using AI to ship faster.",
+  text: "I'm a full-stack developer with 6 years of experience building web applications people use every day. Right now I lead full-stack work at Ashma Tech, shipping products like DeenHub and Smart Ranna with React, Next.js, Node.js, Supabase and Firebase, alongside WordPress and WooCommerce stores for clients worldwide. I also build AI agents and automated QA, and with AI as my co-pilot there's no problem I can't solve and nothing I can't create.",
 };
 
 export interface WhatIDoCard {
