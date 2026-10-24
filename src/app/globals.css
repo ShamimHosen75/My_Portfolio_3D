@@ -165,3 +165,13 @@ html[data-intro="skip"]:not([data-reduced-motion]) .intro-hidden {
 @media (prefers-reduced-motion: reduce) {
   .tm-progress { animation: none; transform: scaleX(1); }
 }
+
+/* Contact form: the tick draws itself once a message is sent */
+@keyframes tm-draw {
+  from { stroke-dashoffset: 24; }
+  to { stroke-dashoffset: 0; }
+}
+.tm-draw {
+  stroke-dasharray: 24;
+  animation: tm-draw 0.6s 0.2s cubic-bezier(.2,.7,.2,1) both;
+}

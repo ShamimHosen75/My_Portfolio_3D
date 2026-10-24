@@ -1,11 +1,11 @@
 import { site } from "@/data/site";
 import { ArrowUpRight } from "@/components/ui/icons";
 
-/** Contact and footer in one, like the reference. */
+/** Footer with the contact details and socials. */
 export function Contact() {
   const year = new Date().getFullYear();
   return (
-    <footer id="contact" className="relative pt-24 pb-16 md:pt-32 md:pb-20" aria-labelledby="contact-title">
+    <footer id="footer" className="relative pt-16 pb-16 md:pt-20 md:pb-20" aria-labelledby="contact-title">
       <div className="mx-auto max-w-[1920px] px-6 sm:px-10 lg:px-[6.5vw]">
         <h2 id="contact-title" className="text-[clamp(2.4rem,3.6vw,4rem)] leading-none font-medium tracking-tight uppercase">
           Contact

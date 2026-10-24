@@ -7,6 +7,7 @@ import { Career } from "@/components/sections/Career";
 import { Work } from "@/components/sections/Work";
 import { TechStack } from "@/components/sections/TechStack";
 import { Testimonials } from "@/components/sections/Testimonials";
+import { GetInTouch } from "@/components/sections/GetInTouch";
 import { Contact } from "@/components/sections/Contact";
 import { CharacterStage } from "@/components/scene/CharacterStage";
 import { Cursor } from "@/components/ui/Cursor";
@@ -33,6 +34,7 @@ export default function Home() {
           <Work />
           <TechStack />
           <Testimonials />
+          <GetInTouch />
         </main>
         <Contact />
       </IntroGate>

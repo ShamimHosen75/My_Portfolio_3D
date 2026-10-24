@@ -34,11 +34,12 @@ All text lives in `src/data/`:
 | `skills.ts` | Logos in "My Techstack" (from the `simple-icons` package) |
 
 **Project images:** drop PNG/JPG screenshots in `assets-src/projects/` using the same names as in `projects.ts` (for example `deenhub.png`) and run `npm run images`. The current images are placeholders.
+**Testimonials:** `src/data/testimonials.ts` holds sample quotes; replace them with real ones.
 **Resume:** replace `public/documents/resume.pdf`.
 **Character stills:** `public/images/character-hero.webp` and `character-desk.webp` are renders of the 3D scene used as the fallback.
 
 ## Deploy to Vercel
 
 1. Go to [vercel.com/new](https://vercel.com/new) and import this GitHub repository (Next.js is detected automatically).
-2. Optionally add `NEXT_PUBLIC_SITE_URL` under Environment Variables.
+2. Under Environment Variables add `RESEND_API_KEY` (free key from [resend.com](https://resend.com)) so the contact form emails you. Without it the form opens the visitor's mail app instead. `NEXT_PUBLIC_SITE_URL` and `CONTACT_FROM` are optional.
 3. Click **Deploy**. Every push to `main` redeploys automatically.
