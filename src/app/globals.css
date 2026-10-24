@@ -153,3 +153,15 @@ html[data-intro="skip"]:not([data-reduced-motion]) .intro-hidden {
     scroll-behavior: auto !important;
   }
 }
+
+/* Testimonial dot fills up while the slide waits for autoplay */
+@keyframes tm-progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.tm-progress {
+  animation: tm-progress linear forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .tm-progress { animation: none; transform: scaleX(1); }
+}
