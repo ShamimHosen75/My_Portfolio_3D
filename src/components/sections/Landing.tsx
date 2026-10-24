@@ -85,13 +85,13 @@ export function Landing() {
     <section ref={root} id="hero" className="relative h-svh min-h-[34rem] overflow-hidden" aria-labelledby="hero-name">
       <div className="mx-auto flex h-full max-w-[1920px] flex-col justify-start px-6 pt-28 sm:px-10 lg:flex-row lg:items-center lg:justify-between lg:pt-0 lg:px-[6.5vw]">
         <div data-hero-col className="intro-hidden lg:mt-[6vh]">
-          <p data-fade className="text-[clamp(1.25rem,1.6vw,1.9rem)] font-light text-accent">
+          <p data-fade className="text-[clamp(1.35rem,1.8vw,2.1rem)] font-light text-accent">
             Hello! I&apos;m
           </p>
           <h1
             id="hero-name"
             aria-label={site.name}
-            className="mt-1 text-[clamp(2.1rem,3.1vw,3.8rem)] leading-[0.98] font-semibold tracking-[0.01em] uppercase"
+            className="mt-1 text-[clamp(2.4rem,3.6vw,4.4rem)] leading-[0.98] font-bold tracking-[0.01em] uppercase"
           >
             {site.heroName.map((line) => (
               <span key={line} data-split aria-hidden="true" className="block overflow-hidden pb-[0.06em]">
@@ -101,12 +101,12 @@ export function Landing() {
           </h1>
         </div>
 
-        <div data-hero-col className="intro-hidden mt-6 lg:mt-[6vh] lg:w-[26vw] lg:shrink-0">
+        <div data-hero-col className="intro-hidden mt-6 lg:mt-[6vh] lg:w-[29vw] lg:shrink-0">
           <p className="sr-only">{titles.map((t) => `${t.prefix} ${t.highlight} ${t.role}`).join(", ")}</p>
           <p
             data-split-r
             aria-hidden="true"
-            className="relative w-max min-w-full overflow-hidden text-[clamp(1.1rem,1.55vw,1.85rem)] font-light whitespace-nowrap text-accent"
+            className="relative w-max min-w-full overflow-hidden text-[clamp(1.25rem,1.8vw,2.1rem)] font-light whitespace-nowrap text-accent"
           >
             {titles.map((t, i) => (
               <span key={i} className={`absolute top-0 left-0 block ${roll(i, word, titles.length, samePrefix)}`}>
@@ -118,7 +118,7 @@ export function Landing() {
           <p
             data-word-r
             aria-hidden="true"
-            className="relative -mt-1 h-[0.82em] w-max min-w-full overflow-hidden text-[clamp(2.2rem,3.4vw,4.2rem)] leading-none font-bold whitespace-nowrap uppercase"
+            className="relative -mt-1 h-[0.82em] w-max min-w-full overflow-hidden text-[clamp(2.5rem,3.9vw,4.8rem)] leading-none font-extrabold whitespace-nowrap uppercase"
           >
             {titles.map((t, i) => (
               <span key={i} className={`text-glow-fill absolute top-0 left-0 block ${roll(i, word, titles.length)}`}>
@@ -130,7 +130,7 @@ export function Landing() {
           <p
             data-split-r
             aria-hidden="true"
-            className="relative -mt-[0.3em] w-max min-w-full overflow-hidden pb-[0.05em] text-[clamp(1.8rem,2.6vw,3.2rem)] leading-none font-semibold whitespace-nowrap uppercase"
+            className="relative -mt-[0.3em] w-max min-w-full overflow-hidden pb-[0.05em] text-[clamp(2rem,3vw,3.7rem)] leading-none font-bold whitespace-nowrap uppercase"
           >
             {titles.map((t, i) => (
               <span key={i} className={`absolute top-0 left-0 block ${roll(i, word, titles.length, sameRole)}`}>

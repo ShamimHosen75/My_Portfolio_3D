@@ -92,7 +92,7 @@ html[data-intro="skip"]:not([data-reduced-motion]) .intro-hidden {
 
 /* Outlined, glowing word in the hero */
 .text-glow-fill {
-  background: linear-gradient(180deg, #c2a4ff 0%, #7f40ff 55%, rgb(127 64 255 / 0.15) 100%);
+  background: linear-gradient(180deg, #d6c2ff 0%, #a97cff 45%, #7f40ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
