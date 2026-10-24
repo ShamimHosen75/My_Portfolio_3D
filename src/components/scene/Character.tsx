@@ -293,19 +293,19 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
 
       {/* Hair: a cap of the same head shape, tilted so the hairline sits high at the front */}
       {/* The cap sits lower on the viewer's left, so the hairline runs diagonally across the forehead */}
-      <mesh geometry={hairCap} material={mats.hair} position={[0, 0.086, -0.014]} rotation={[-0.32, 0, 0.09]} scale={[1.13, 1.2, 1.14]} />
+      <mesh geometry={hairCap} material={mats.hair} position={[0, 0.08, -0.014]} rotation={[-0.32, 0, 0.09]} scale={[1.12, 1.12, 1.14]} />
       {/* Fringe swept down to the viewer's left, merged into the cap's front edge */}
       <mesh material={mats.hair} position={[-0.05, 0.178, 0.125]} rotation={[0.2, 0, 0.22]} scale={[1.35, 0.5, 0.8]}>
         <sphereGeometry args={[0.1, 28, 20]} />
       </mesh>
       {/* Baseball cap: crown over the hair, a curved brim at the front and a button on top */}
       <group position={[0, 0.196, -0.014]} rotation={[-0.04, 0, 0]}>
-        <mesh material={mats.cap} scale={[1, 0.95, 1.03]}>
-          <sphereGeometry args={[0.262, 48, 24, 0, Math.PI * 2, 0, Math.PI * 0.57]} />
+        <mesh material={mats.cap} scale={[1.02, 1, 1.04]}>
+          <sphereGeometry args={[0.262, 48, 24, 0, Math.PI * 2, 0, Math.PI * 0.56]} />
         </mesh>
         {/* Seam lines over the crown */}
         {[0, Math.PI / 3, -Math.PI / 3].map((r) => (
-          <mesh key={r} material={mats.capDark} rotation={[0, r, 0]} scale={[1.004, 0.954, 1.034]}>
+          <mesh key={r} material={mats.capDark} rotation={[0, r, 0]} scale={[1.024, 1.004, 1.044]}>
             <torusGeometry args={[0.262, 0.0035, 6, 48, Math.PI]} />
           </mesh>
         ))}
