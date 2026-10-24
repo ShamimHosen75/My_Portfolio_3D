@@ -175,3 +175,20 @@ html[data-intro="skip"]:not([data-reduced-motion]) .intro-hidden {
   stroke-dasharray: 24;
   animation: tm-draw 0.6s 0.2s cubic-bezier(.2,.7,.2,1) both;
 }
+
+/* Certification badges: a thin gradient edge that spins slowly */
+@property --edge-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes edge-spin {
+  to { --edge-angle: 360deg; }
+}
+.gradient-edge {
+  background: conic-gradient(from var(--edge-angle), rgb(234 229 236 / 0.12), #7f40ff, #c2a4ff, rgb(234 229 236 / 0.12));
+  animation: edge-spin 6s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .gradient-edge { animation: none; }
+}
