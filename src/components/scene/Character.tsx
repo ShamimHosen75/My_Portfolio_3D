@@ -35,7 +35,7 @@ function useMaterials() {
     });
     const dark = new THREE.MeshStandardMaterial({ color: "#121015", roughness: 0.6 });
     const eyeWhite = new THREE.MeshPhysicalMaterial({ color: "#f7f5f9", roughness: 0.12, clearcoat: 1 });
-    const iris = new THREE.MeshPhysicalMaterial({ color: "#5a4699", roughness: 0.15, clearcoat: 1 });
+    const iris = new THREE.MeshPhysicalMaterial({ color: "#6a52b8", roughness: 0.15, clearcoat: 1 });
     const pupil = new THREE.MeshStandardMaterial({ color: "#120d22", roughness: 0.3 });
     const lash = new THREE.MeshStandardMaterial({ color: "#2a2430", roughness: 0.6 });
     const mouth = new THREE.MeshStandardMaterial({ color: "#8f8590", roughness: 0.7 });
@@ -142,7 +142,7 @@ function Leg({ side, mats }: { side: 1 | -1; mats: ReturnType<typeof useMaterial
  * Rounded-box head: a sphere pushed towards a superellipsoid, taller than wide,
  * with the jaw tapering into a soft chin. Used for the skull and (scaled up) the hair.
  */
-function headGeometry(thetaLength = Math.PI, segments = 56, n = 2.7) {
+function headGeometry(thetaLength = Math.PI, segments = 56, n = 2.5) {
   const g = new THREE.SphereGeometry(1, segments, Math.round(segments * 0.75), 0, Math.PI * 2, 0, thetaLength);
   const pos = g.attributes.position as THREE.BufferAttribute;
   const v = new THREE.Vector3();
@@ -153,14 +153,14 @@ function headGeometry(thetaLength = Math.PI, segments = 56, n = 2.7) {
     if (v.y < 0) {
       // Jaw: narrower towards the chin, chin slightly forward.
       const t = Math.min(1, -v.y);
-      v.x *= 1 - 0.14 * t * t;
-      v.z *= 1 - 0.12 * t * t;
-      v.z += 0.06 * t;
+      v.x *= 1 - 0.2 * t * t;
+      v.z *= 1 - 0.16 * t * t;
+      v.z += 0.05 * t;
     } else {
       // Slightly flatter crown.
       v.y *= 1 - 0.06 * v.y;
     }
-    pos.setXYZ(i, v.x * 0.215, v.y * 0.255, v.z * 0.215);
+    pos.setXYZ(i, v.x * 0.212, v.y * 0.27, v.z * 0.215);
   }
   g.computeVertexNormals();
   return g;
@@ -176,10 +176,10 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
   const hairCap = useMemo(() => headGeometry(Math.PI * 0.5, 48, 3.4), []);
   const mouthLine = useMemo(() => {
     const curve = new THREE.CatmullRomCurve3([
-      new THREE.Vector3(-0.066, -0.104, 0.21),
-      new THREE.Vector3(-0.03, -0.11, 0.226),
-      new THREE.Vector3(0.02, -0.11, 0.227),
-      new THREE.Vector3(0.068, -0.101, 0.21),
+      new THREE.Vector3(-0.062, -0.108, 0.212),
+      new THREE.Vector3(-0.025, -0.114, 0.228),
+      new THREE.Vector3(0.025, -0.112, 0.229),
+      new THREE.Vector3(0.072, -0.094, 0.21),
     ]);
     return new THREE.TubeGeometry(curve, 32, 0.0038, 6, false);
   }, []);
@@ -198,7 +198,7 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       }
     }
     // Heavy, sleepy upper lids that close fully on a blink.
-    const lid = 0.1 + close * 1.47;
+    const lid = 0.46 + close * 1.12;
     if (lidL.current) lidL.current.rotation.x = lid;
     if (lidR.current) lidR.current.rotation.x = lid;
     const ix = THREE.MathUtils.clamp(stageState.pointerX, -1, 1) * 0.011 * (1 - stageState.desk);
@@ -211,19 +211,19 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
   });
 
   const eye = (side: 1 | -1, lidRef: React.RefObject<THREE.Mesh | null>, irisRef: React.RefObject<THREE.Group | null>) => (
-    <group position={[side * 0.085, 0.026, 0.188]} rotation={[0, side * 0.24, 0]} scale={1.14}>
+    <group position={[side * 0.084, 0.03, 0.19]} rotation={[0, side * 0.24, side * 0.1]} scale={1.16}>
       {/* Almond eyeball */}
       <mesh material={mats.eyeWhite} scale={[1.22, 0.86, 0.5]}>
         <sphereGeometry args={[0.056, 28, 20]} />
       </mesh>
       <group ref={irisRef}>
-        <mesh material={mats.iris} position={[0, -0.006, 0.02]} scale={[1, 1, 0.45]}>
-          <sphereGeometry args={[0.036, 24, 18]} />
+        <mesh material={mats.iris} position={[0, -0.008, 0.02]} scale={[1, 1, 0.45]}>
+          <sphereGeometry args={[0.041, 24, 18]} />
         </mesh>
-        <mesh material={mats.pupil} position={[0, -0.006, 0.0345]} scale={[1, 1, 0.4]}>
-          <sphereGeometry args={[0.013, 16, 12]} />
+        <mesh material={mats.pupil} position={[0, -0.008, 0.0365]} scale={[1, 1, 0.4]}>
+          <sphereGeometry args={[0.016, 16, 12]} />
         </mesh>
-        <mesh material={mats.eyeWhite} position={[0.012, 0.004, 0.039]}>
+        <mesh material={mats.eyeWhite} position={[0.013, 0.002, 0.041]}>
           <sphereGeometry args={[0.0045, 8, 8]} />
         </mesh>
       </group>
@@ -252,20 +252,20 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       {eye(1, lidR, irisR)}
 
       {/* Straight, thick, flat brows */}
-      <mesh material={mats.hair} position={[-0.085, 0.108, 0.21]} rotation={[0.12, -0.22, Math.PI / 2 - 0.02]} scale={[1, 1, 0.55]}>
-        <capsuleGeometry args={[0.016, 0.105, 4, 12]} />
+      <mesh material={mats.hair} position={[-0.088, 0.104, 0.208]} rotation={[0.12, -0.22, Math.PI / 2 + 0.08]} scale={[1, 1, 0.5]}>
+        <capsuleGeometry args={[0.015, 0.11, 4, 12]} />
       </mesh>
-      <mesh material={mats.hair} position={[0.085, 0.108, 0.21]} rotation={[0.12, 0.22, Math.PI / 2 + 0.06]} scale={[1, 1, 0.55]}>
-        <capsuleGeometry args={[0.016, 0.105, 4, 12]} />
+      <mesh material={mats.hair} position={[0.088, 0.112, 0.208]} rotation={[0.12, 0.22, Math.PI / 2 + 0.2]} scale={[1, 1, 0.5]}>
+        <capsuleGeometry args={[0.015, 0.11, 4, 12]} />
       </mesh>
 
       {/* Long, rounded nose */}
       <group position={[0, -0.01, 0.2]}>
-        <mesh material={mats.skin} position={[0, -0.012, 0.006]} rotation={[0.32, 0, 0]} scale={[1.1, 1, 0.7]}>
-          <capsuleGeometry args={[0.031, 0.05, 8, 16]} />
+        <mesh material={mats.skin} position={[0, -0.01, 0.004]} rotation={[0.32, 0, 0]} scale={[1, 1, 0.65]}>
+          <capsuleGeometry args={[0.026, 0.045, 8, 16]} />
         </mesh>
-        <mesh material={mats.skin} position={[0, -0.048, 0.017]} scale={[1.05, 0.82, 0.72]}>
-          <sphereGeometry args={[0.038, 24, 18]} />
+        <mesh material={mats.skin} position={[0, -0.042, 0.016]} scale={[1.05, 0.8, 0.7]}>
+          <sphereGeometry args={[0.033, 24, 18]} />
         </mesh>
       </group>
 
@@ -276,7 +276,7 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       {([-1, 1] as const).map((s) => (
         // The left ear is the right ear mirrored.
         <group key={s} scale={[s, 1, 1]}>
-          <group position={[0.225, -0.005, -0.03]} rotation={[0, -0.85, 0]} scale={1.3}>
+          <group position={[0.222, -0.025, -0.03]} rotation={[0, -0.85, 0]} scale={1.42}>
             {/* Ear disc facing forward and out, with a raised rim open towards the face */}
             <mesh material={mats.skin} scale={[0.28, 0.88, 0.74]}>
               <sphereGeometry args={[0.085, 24, 18]} />
@@ -289,10 +289,15 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       ))}
 
       {/* Hair: a cap of the same head shape, tilted so the hairline sits high at the front */}
-      <mesh geometry={hairCap} material={mats.hair} position={[0, 0.072, -0.012]} rotation={[-0.42, 0, 0]} scale={[1.12, 1.17, 1.13]} />
-      {/* Sides down to the tops of the ears */}
+      {/* The cap sits lower on the viewer's left, so the hairline runs diagonally across the forehead */}
+      <mesh geometry={hairCap} material={mats.hair} position={[0, 0.086, -0.014]} rotation={[-0.32, 0, 0.09]} scale={[1.13, 1.2, 1.14]} />
+      {/* Fringe swept down to the viewer's left, merged into the cap's front edge */}
+      <mesh material={mats.hair} position={[-0.05, 0.178, 0.125]} rotation={[0.2, 0, 0.22]} scale={[1.35, 0.5, 0.8]}>
+        <sphereGeometry args={[0.1, 28, 20]} />
+      </mesh>
+      {/* Sides down over the tops of the ears */}
       {([-1, 1] as const).map((s) => (
-        <mesh key={s} material={mats.hair} position={[s * 0.196, 0.11, -0.04]} rotation={[0.1, 0, 0]} scale={[0.3, 0.72, 1.3]}>
+        <mesh key={s} material={mats.hair} position={[s * 0.2, 0.09, -0.045]} rotation={[0.1, 0, 0]} scale={[0.3, 0.85, 1.35]}>
           <sphereGeometry args={[0.12, 24, 18]} />
         </mesh>
       ))}
@@ -378,9 +383,11 @@ export function Character() {
         <mesh material={mats.skin} position={[0, 1.17, 0]}>
           <cylinderGeometry args={[0.084, 0.09, 0.2, 32]} />
         </mesh>
-        <mesh material={mats.clay} position={[0, 1.105, 0]} rotation={[Math.PI / 2, 0, 0]}>
-          <torusGeometry args={[0.1, 0.02, 12, 40]} />
-        </mesh>
+        {[1.095, 1.115, 1.135].map((y) => (
+          <mesh key={y} material={mats.clay} position={[0, y, 0]} rotation={[Math.PI / 2, 0, 0]}>
+            <torusGeometry args={[0.098, 0.014, 12, 40]} />
+          </mesh>
+        ))}
         <mesh material={mats.clay} position={[0, 0.56, 0.02]} scale={[1.15, 0.6, 1]}>
           <sphereGeometry args={[0.19, 28, 20]} />
         </mesh>
