@@ -54,13 +54,16 @@ function useMaterials() {
       emissiveIntensity: 0.12,
     });
     const keys = new THREE.MeshStandardMaterial({ color: "#c9c3cf", roughness: 0.5 });
+    const cap = new THREE.MeshPhysicalMaterial({ color: "#5a2fd6", roughness: 0.7, sheen: 0.5, sheenColor: new THREE.Color("#c2a4ff") });
+    const capDark = cap.clone();
+    capDark.color = new THREE.Color("#3a1d8f");
     const shadow = new THREE.MeshBasicMaterial({
       map: radialTexture(),
       transparent: true,
       depthWrite: false,
       opacity: 0,
     });
-    return { clay, skin, hair, dark, eyeWhite, iris, pupil, lash, mouth, furniture, chair, pink, keys, shadow };
+    return { clay, skin, hair, dark, eyeWhite, iris, pupil, lash, mouth, furniture, chair, pink, keys, cap, capDark, shadow };
   }, []);
 }
 
@@ -295,6 +298,27 @@ function Head({ mats }: { mats: ReturnType<typeof useMaterials> }) {
       <mesh material={mats.hair} position={[-0.05, 0.178, 0.125]} rotation={[0.2, 0, 0.22]} scale={[1.35, 0.5, 0.8]}>
         <sphereGeometry args={[0.1, 28, 20]} />
       </mesh>
+      {/* Baseball cap: crown over the hair, a curved brim at the front and a button on top */}
+      <group position={[0, 0.196, -0.014]} rotation={[-0.04, 0, 0]}>
+        <mesh material={mats.cap} scale={[1, 0.95, 1.03]}>
+          <sphereGeometry args={[0.262, 48, 24, 0, Math.PI * 2, 0, Math.PI * 0.57]} />
+        </mesh>
+        {/* Seam lines over the crown */}
+        {[0, Math.PI / 3, -Math.PI / 3].map((r) => (
+          <mesh key={r} material={mats.capDark} rotation={[0, r, 0]} scale={[1.004, 0.954, 1.034]}>
+            <torusGeometry args={[0.262, 0.0035, 6, 48, Math.PI]} />
+          </mesh>
+        ))}
+        {/* Brim pivots at the front rim so it angles down without dropping over the eyes */}
+        <group position={[0, -0.048, 0.2]} rotation={[0.38, 0, 0]}>
+          <mesh material={mats.capDark} position={[0, 0, -0.2]} scale={[1, 1, 1.28]}>
+            <cylinderGeometry args={[0.255, 0.255, 0.016, 40, 1, false, -Math.PI * 0.36, Math.PI * 0.72]} />
+          </mesh>
+        </group>
+        <mesh material={mats.capDark} position={[0, 0.248, 0]}>
+          <sphereGeometry args={[0.015, 12, 10]} />
+        </mesh>
+      </group>
       {/* Sides down over the tops of the ears */}
       {([-1, 1] as const).map((s) => (
         <mesh key={s} material={mats.hair} position={[s * 0.2, 0.09, -0.045]} rotation={[0.1, 0, 0]} scale={[0.3, 0.85, 1.35]}>
