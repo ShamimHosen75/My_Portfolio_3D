@@ -9,9 +9,16 @@ export interface CareerItem {
 
 export const career: CareerItem[] = [
   {
+    title: "Full Stack Developer",
+    place: "Gtation",
+    year: "NOW",
+    description:
+      "Building and shipping products like Surprisly and Tourigo end to end with React, Next.js, Node.js, Supabase and Firebase, plus AI agents and automated QA.",
+  },
+  {
     title: "Web Developer",
     place: "Ashma Tech Limited",
-    year: "NOW",
+    year: "2026",
     description:
       "Leading full-stack development with React, Next.js and Node.js, building backends on Supabase and Firebase, and shipping WooCommerce stores with Woodmart and Elementor.",
   },
@@ -33,12 +40,6 @@ export const career: CareerItem[] = [
     place: "bdCalling IT LTD",
     year: "2023",
     description: "Delivered WordPress projects with Elementor, Divi, WPBakery and WooCommerce.",
-  },
-  {
-    title: "Diploma in Computer Science",
-    place: "Habiganj Polytechnic Institute",
-    year: "2023",
-    description: "Data structures, algorithms, OOP, databases, operating systems and networks. CGPA 3.59 / 4.00.",
   },
   {
     title: "Frontend Engineer Intern",

@@ -4,6 +4,7 @@ import { Landing } from "@/components/sections/Landing";
 import { About } from "@/components/sections/About";
 import { WhatIDo } from "@/components/sections/WhatIDo";
 import { Career } from "@/components/sections/Career";
+import { Education } from "@/components/sections/Education";
 import { Work } from "@/components/sections/Work";
 import { TechStack } from "@/components/sections/TechStack";
 import { Testimonials } from "@/components/sections/Testimonials";
@@ -31,6 +32,7 @@ export default function Home() {
             <WhatIDo />
           </CharacterStage>
           <Career />
+          <Education />
           <Work />
           <TechStack />
           <Testimonials />
