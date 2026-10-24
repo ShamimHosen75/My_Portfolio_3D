@@ -4,16 +4,10 @@ import { useRef } from "react";
 import { gsap, MOTION_OK, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { certifications, education, learning } from "@/data/education";
 
-const stats = [
-  { value: 6, suffix: "+", label: "Years building for the web" },
-  { value: education.length, suffix: "", label: "Degrees & diplomas" },
-  { value: certifications.length, suffix: "", label: "Certifications & awards" },
-];
 
 /**
  * "My academic journey": a glowing path that draws itself down the page with a light
- * travelling along it, education stops alternating left and right, counters that
- * count up, and certification badges that flip in with a spinning gradient edge.
+ * travelling along it, education stops alternating left and right, and certification badges that flip in with a spinning gradient edge.
  */
 export function Education() {
   const root = useRef<HTMLElement>(null);
@@ -30,20 +24,6 @@ export function Education() {
         head
           .fromTo("[data-edu-ch]", { yPercent: 110, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.8, stagger: 0.025, ease: "power4.out" })
           .fromTo("[data-edu-sub]", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.7, ease: "power3.out" }, "-=0.4");
-
-        // Counters.
-        gsap.utils.toArray<HTMLElement>("[data-count]").forEach((el) => {
-          const target = Number(el.dataset.count);
-          const obj = { v: 0 };
-          gsap.to(obj, {
-            v: target,
-            duration: 1.6,
-            ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 85%" },
-            onUpdate: () => (el.textContent = String(Math.round(obj.v))),
-          });
-        });
-        gsap.fromTo("[data-stat]", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: "power3.out", scrollTrigger: { trigger: "[data-stats]", start: "top 85%" } });
 
         // The path draws itself as you scroll and a light travels along it.
         const p = path.current;
@@ -163,19 +143,6 @@ export function Education() {
             My academic background and continuous learning in technology and software development.
           </p>
         </div>
-
-        {/* Counters */}
-        <ul data-stats className="mx-auto mt-14 grid max-w-3xl grid-cols-3 gap-3 md:mt-20 md:gap-6">
-          {stats.map((s) => (
-            <li key={s.label} data-stat className="rounded-2xl border border-line bg-[#120d16]/70 px-3 py-5 text-center backdrop-blur-sm md:px-6 md:py-7">
-              <p className="text-glow-fill text-[clamp(2rem,3.4vw,3.6rem)] leading-none font-extrabold tabular-nums">
-                <span data-count={s.value}>0</span>
-                {s.suffix}
-              </p>
-              <p className="mt-2 text-xs text-muted md:text-sm">{s.label}</p>
-            </li>
-          ))}
-        </ul>
 
         {/* Education path */}
         <div ref={pathWrap} className="relative mt-20 md:mt-28">
