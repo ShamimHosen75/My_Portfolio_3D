@@ -36,12 +36,6 @@ export const career: CareerItem[] = [
     description: "Led front-end and WordPress projects as team lead using Elementor, Divi, WPBakery and WooCommerce.",
   },
   {
-    title: "Web Developer",
-    place: "bdCalling IT LTD",
-    year: "2023",
-    description: "Delivered WordPress projects with Elementor, Divi, WPBakery and WooCommerce.",
-  },
-  {
     title: "Frontend Engineer Intern",
     place: "App Coderz, USA",
     year: "2022",
