@@ -91,7 +91,6 @@ export function GetInTouch() {
         body: JSON.stringify(data),
       });
       if (res.status === 503) {
-        // No email service set up yet: hand the message to the visitor's own mail app.
         const subject = encodeURIComponent(`Message from ${data.name} via your portfolio`);
         const body = encodeURIComponent(`${data.message}\n\n— ${data.name} (${data.email})`);
         window.location.href = `mailto:${site.email}?subject=${subject}&body=${body}`;
@@ -113,50 +112,63 @@ export function GetInTouch() {
 
   return (
     <section ref={root} id="contact" className="relative overflow-hidden" aria-labelledby="cta-title">
-      {/* Call to action */}
-      <div data-cta className="mx-auto max-w-[1180px] px-6 pt-28 text-center sm:px-10 md:pt-40">
-        <h2 id="cta-title" className="text-[clamp(2.6rem,6vw,6.5rem)] leading-[0.98] font-medium tracking-tight">
-          {["Have", "a", "project", "in", "mind?"].map((w, i) => (
-            <span key={i} data-cta-word className="inline-block overflow-hidden pb-[0.08em] align-top whitespace-pre">
-              <span className={`inline-block ${w === "project" ? "text-glow-fill" : ""}`}>{w} </span>
-            </span>
-          ))}
-          <br />
-          {["Let's", "build", "it", "together."].map((w, i) => (
-            <span key={i} data-cta-word className="inline-block overflow-hidden pb-[0.08em] align-top whitespace-pre">
-              <span className="inline-block text-accent">{w} </span>
-            </span>
-          ))}
-        </h2>
-        <p data-cta-sub className="mx-auto mt-6 max-w-xl text-[clamp(1rem,1.2vw,1.25rem)] leading-relaxed text-muted">
-          I&apos;m open to freelance work and full-time roles. Tell me about your idea and I&apos;ll get back to you within a day.
-        </p>
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-          <a
-            data-cta-btn
-            data-magnet
-            href="#contact-form"
-            onClick={scrollToForm}
-            className="group relative inline-flex h-14 items-center gap-3 overflow-hidden rounded-full bg-text px-8 text-base font-medium text-bg transition-colors duration-500 hover:text-text focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-4 md:h-16 md:px-10 md:text-lg"
+
+      {/* ── Call to action ─────────────────────────────────────────────── */}
+      <div data-cta className="mx-auto w-full max-w-[1920px] px-6 pt-28 sm:px-10 md:pt-40 lg:px-[6.5vw]">
+
+        {/* Headline + sub + buttons — centred on all sizes */}
+        <div className="flex flex-col items-center text-center">
+          <h2
+            id="cta-title"
+            className="text-[clamp(2.4rem,5.5vw,6.5rem)] leading-[0.98] font-medium tracking-tight"
           >
-            <span className="absolute inset-0 origin-bottom scale-y-0 rounded-full bg-glow transition-transform duration-500 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-y-100" />
-            <span className="relative">Start a project</span>
-            <svg viewBox="0 0 24 24" className="relative h-5 w-5 transition-transform duration-500 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-          <a
-            data-cta-btn
-            data-magnet
-            href={`mailto:${site.email}`}
-            className="inline-flex h-14 items-center rounded-full border border-line px-8 text-base text-text transition-colors duration-500 hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-4 md:h-16 md:px-10 md:text-lg"
+            {["Have", "a", "project", "in", "mind?"].map((w, i) => (
+              <span key={i} data-cta-word className="inline-block overflow-hidden pb-[0.08em] align-top whitespace-pre">
+                <span className={`inline-block ${w === "project" ? "text-glow-fill" : ""}`}>{w} </span>
+              </span>
+            ))}
+            <br />
+            {["Let's", "build", "it", "together."].map((w, i) => (
+              <span key={i} data-cta-word className="inline-block overflow-hidden pb-[0.08em] align-top whitespace-pre">
+                <span className="inline-block text-accent">{w} </span>
+              </span>
+            ))}
+          </h2>
+
+          <p
+            data-cta-sub
+            className="mx-auto mt-6 max-w-2xl text-[clamp(1rem,1.2vw,1.25rem)] leading-relaxed text-muted"
           >
-            {site.email}
-          </a>
+            I&apos;m open to freelance work and full-time roles. Tell me about your idea and I&apos;ll get back to you within a day.
+          </p>
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <a
+              data-cta-btn
+              data-magnet
+              href="#contact-form"
+              onClick={scrollToForm}
+              className="group relative inline-flex h-14 items-center gap-3 overflow-hidden rounded-full bg-text px-8 text-base font-medium text-bg transition-colors duration-500 hover:text-text focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-4 md:h-16 md:px-10 md:text-lg"
+            >
+              <span className="absolute inset-0 origin-bottom scale-y-0 rounded-full bg-glow transition-transform duration-500 ease-[cubic-bezier(.2,.7,.2,1)] group-hover:scale-y-100" />
+              <span className="relative">Start a project</span>
+              <svg viewBox="0 0 24 24" className="relative h-5 w-5 transition-transform duration-500 group-hover:translate-x-1" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </a>
+            <a
+              data-cta-btn
+              data-magnet
+              href={`mailto:${site.email}`}
+              className="inline-flex h-14 items-center rounded-full border border-line px-8 text-base text-text transition-colors duration-500 hover:border-accent hover:text-accent focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-4 md:h-16 md:px-10 md:text-lg"
+            >
+              {site.email}
+            </a>
+          </div>
         </div>
       </div>
 
-      {/* Marquee line */}
+      {/* ── Marquee ────────────────────────────────────────────────────── */}
       <div data-marquee-wrap className="relative mt-20 border-y border-line py-5 md:mt-28" aria-hidden="true">
         <div data-marquee className="flex w-max whitespace-nowrap">
           {[0, 1].map((copy) => (
@@ -172,10 +184,12 @@ export function GetInTouch() {
         </div>
       </div>
 
-      {/* Form */}
-      <div className="mx-auto max-w-[1180px] px-6 pt-24 pb-12 sm:px-10 md:pt-32">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-[6vw]">
-          <div>
+      {/* ── Contact form ───────────────────────────────────────────────── */}
+      <div className="mx-auto w-full max-w-[1920px] px-6 pt-24 pb-16 sm:px-10 md:pt-32 md:pb-24 lg:px-[6.5vw]">
+        <div className="grid gap-12 lg:grid-cols-[1fr_1.6fr] lg:gap-[6vw] xl:grid-cols-[1fr_1.8fr]">
+
+          {/* Left: label + description */}
+          <div className="flex flex-col justify-center">
             <p className="text-[clamp(0.8rem,0.85vw,1rem)] font-medium tracking-[0.35em] text-accent uppercase">Contact</p>
             <h3 className="mt-4 text-[clamp(2rem,3.2vw,3.4rem)] leading-[1.05] font-medium tracking-tight">
               Send me
@@ -183,13 +197,17 @@ export function GetInTouch() {
             </h3>
             <p className="mt-6 max-w-sm leading-relaxed text-muted">
               Based in {site.location}, working with clients everywhere. Prefer email? Write to{" "}
-              <a href={`mailto:${site.email}`} className="text-text underline decoration-text/30 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent">
+              <a
+                href={`mailto:${site.email}`}
+                className="text-text underline decoration-text/30 underline-offset-4 transition-colors hover:text-accent hover:decoration-accent"
+              >
                 {site.email}
               </a>
               .
             </p>
           </div>
 
+          {/* Right: form card */}
           <form
             ref={form}
             id="contact-form"
@@ -219,7 +237,7 @@ export function GetInTouch() {
               </div>
             ) : (
               <div className="relative">
-                <div className="grid gap-8 md:grid-cols-2">
+                <div className="grid gap-8 sm:grid-cols-2">
                   {fields.map((f) => (
                     <Field key={f.id} {...f} />
                   ))}
@@ -227,6 +245,7 @@ export function GetInTouch() {
                 <div className="mt-8">
                   <Field id="message" label="Tell me about your project" textarea />
                 </div>
+
                 {/* Honeypot: hidden from people, filled only by bots */}
                 <div className="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
                   <label htmlFor="company">Company</label>

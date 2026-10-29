@@ -71,6 +71,9 @@ export function Work() {
                     <p className="text-xs text-muted md:text-sm">{p.category}</p>
                   </div>
                 </div>
+                {p.description && (
+                  <p className="text-xs text-muted md:text-sm leading-relaxed line-clamp-4">{p.description}</p>
+                )}
                 <div>
                   <p className="text-sm font-medium">Tools and features</p>
                   <p className="mt-1 text-xs text-muted md:text-sm">{p.tools}</p>

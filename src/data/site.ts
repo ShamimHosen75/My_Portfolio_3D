@@ -14,7 +14,7 @@ export const site = {
     { prefix: "An Enthusiastic", highlight: "AI/ML", role: "Learner" },
     { prefix: "An AI-Assisted", highlight: "Problem", role: "Solver" },
   ],
-  role: "MERN Stack & WordPress Developer",
+  role: "Aspiring Software Engineer",
   location: "Dhaka, Bangladesh",
   email: "billal.shamim75@gmail.com",
   resume: "/documents/resume.pdf",

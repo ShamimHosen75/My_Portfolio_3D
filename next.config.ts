@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    // Keep optimised images for only 60 s in dev so swapping files is instant.
+    minimumCacheTTL: 60,
+  },
 };
 
 export default nextConfig;
